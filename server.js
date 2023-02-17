@@ -29,8 +29,10 @@ app.post('/api/messages', (req, res) => {
 
     client.messages
         .create({ body: message, from: "+14407722429", to: "+15096099820" })
-        .then(message => console.log(message.sid));
-    res.send(body);
+        .then(message => console.log(message.sid))
+        .catch(err => res.send({err,body}));
+
+    // res.send(body);
 })
 
 app.listen(8080, () => {
