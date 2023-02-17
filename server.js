@@ -33,7 +33,7 @@ app.post('/api/messages', (req, res) => {
     res.send(body);
 })
 
-app.listen(process.env.PORT || 80, () => {
-    console.log(`Express server listening on port ${process.env.PORT || 80}`);
+app.listen(8080, () => {
+    console.log(`Express server listening on port ${8080}`);
 })
 
