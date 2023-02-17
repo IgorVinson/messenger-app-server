@@ -1,0 +1,23 @@
+# Node.js
+node_modules/
+
+.idea/
+
+# Dependency directories
+bower_components/
+jspm_packages/
+
+# Compiled binary files
+*.class
+*.dll
+*.exe
+*.o
+*.obj
+*.pyc
+
+# Compiled output from build tools
+/dist/
+/build/
+/coverage/
+
+# Logs
