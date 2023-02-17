@@ -35,6 +35,8 @@ app.post('/api/messages', (req, res) => {
     // res.send(body);
 })
 
+console.log('Server is running on port 8080');
+
 app.listen(8080, () => {
     console.log(`Express server listening on port ${8080}`);
 })
