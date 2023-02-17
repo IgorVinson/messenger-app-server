@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const { MessagingResponse } = require('twilio').twiml;
 
 const accountSid = "AC729ffa3f8c50c24803da43008b55a29b";
-const authToken = "80f0fa2c1d0e88174b7b4129c9ce1c2b";
+const authToken = "cff37ec85b3d00cdecefbb7951d2077a";
 const client = require("twilio")(accountSid, authToken);
 
 const app = express();
