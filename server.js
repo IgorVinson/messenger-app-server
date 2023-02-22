@@ -1,6 +1,8 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const { MessagingResponse } = require('twilio').twiml;
+const { OAuth2Client } = require('google-auth-library');
 
 const accountSid = "AC729ffa3f8c50c24803da43008b55a29b";
 const authToken = "cff37ec85b3d00cdecefbb7951d2077a";
@@ -41,3 +43,22 @@ app.listen(8080, () => {
     console.log(`Express server listening on port ${8080}`);
 })
 
+
+const oAuth2Client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+async function verify(token) {
+    const ticket = await oAuth2Client.verifyIdToken({
+        idToken: token,
+        audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+    const { name, email } = payload;
+    return { name, email };
+}
+
+app.post('/google-login', async (req, res) => {
+    const { credential } = req.body;
+    const { name, email } = await verify(credential);
+    // use the name and email to create or update a user record in your database
+    res.json({ success: true, name, email });
+});
