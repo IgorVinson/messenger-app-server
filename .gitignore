@@ -2,7 +2,7 @@
 node_modules/
 .env
 .idea/
-
+db.js
 # Dependency directories
 bower_components/
 jspm_packages/
