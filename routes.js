@@ -1,9 +1,11 @@
 require('dotenv').config();
 const express = require('express');
 const router = express.Router();
+const {pool} = require('./db');
 
 const verify = require('./googleAuth');
 const { sendSms, generateTwimlMessage } = require('./twilio');
+
 
 router.post('/sms', (req, res) => {
     const twimlMessage = generateTwimlMessage('How are you ?!');
@@ -24,12 +26,26 @@ router.post('/api/messages', async (req, res) => {
     }
 });
 
-
 router.post('/google-login', async (req, res) => {
+
     const { credential } = req.body;
-    const { name, email } = await verify(credential);
+    const data = await verify(credential);
+
     // use the name and email to create or update a user record in your database
-    res.json({ success: true, name, email });
+    res.json(data);
+});
+
+router.get('/users', (req, res) => {
+    pool.query('SELECT * FROM users', (err, result) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Error retrieving users from database');
+        } else {
+            res.send(result.rows);
+        }
+    }).then((result) => {
+        console.log(result.rows);
+    })
 });
 
 module.exports = router;

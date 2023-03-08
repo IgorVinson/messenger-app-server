@@ -1,21 +1,42 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
+const http = require('http');
+const socketIo = require('socket.io');
+const cors = require('cors');
 
 const app = express();
 
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    next();
+const server = http.createServer(app);
+const io = socketIo(server, {
+    cors: {
+        origin: "http://localhost:3000",
+        methods: ["GET", "POST"],
+        allowedHeaders: ["my-custom-header"],
+        credentials: true
+    }
 });
+
+app.use(cors());
+const port = process.env.PORT || 8080;
+
+// io.on('connection', (socket) => {
+//     console.log(`Client ${socket.id} connected`);
+//
+//     socket.on('chat-message', (message) => {
+//         console.log(`Received message from client ${socket.id}: ${message}`);
+//     });
+//
+//     socket.on('disconnect', () => {
+//         console.log(`Client ${socket.id} disconnected`);
+//     });
+// });
+
+
 app.use(bodyParser.json());
 app.use('/', routes);
 
-const port = process.env.PORT || 8080;
+server.listen(port, () => {
+    console.log(`Server SOCKET listening on port ${port}`);
+});
 
-app.listen(port, () => {
-    console.log(`Express server listening on port ${port}`);
-})
