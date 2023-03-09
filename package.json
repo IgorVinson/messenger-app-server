@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js",
+    "dev": "nodemon server.js --exec babel-node --presets=@babel/preset-env",
     "start": "node server.js",
     "build": "npm install"
   },
@@ -24,5 +24,11 @@
     "pg": "^8.10.0",
     "socket.io": "^4.6.1",
     "twilio": "^4.7.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.21.0",
+    "@babel/core": "^7.21.0",
+    "@babel/node": "^7.20.7",
+    "@babel/preset-env": "^7.20.2"
   }
 }

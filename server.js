@@ -1,11 +1,18 @@
+import {connectDb} from "./db";
 const express = require('express');
+require('dotenv').config();
 const bodyParser = require('body-parser');
-const routes = require('./routes');
+import routes from './routes/routes';
 const http = require('http');
 const socketIo = require('socket.io');
 const cors = require('cors');
 
+
 const app = express();
+app.use(cors());
+app.use(bodyParser.json());
+app.use('/', routes);
+const port = process.env.PORT || 8080;
 
 const server = http.createServer(app);
 const io = socketIo(server, {
@@ -16,27 +23,21 @@ const io = socketIo(server, {
         credentials: true
     }
 });
+io.on('connection', (socket) => {
+    console.log(`Client ${socket.id} connected`);
 
-app.use(cors());
-const port = process.env.PORT || 8080;
+    socket.on('chat-message', (message) => {
+        console.log(`Received message from client ${socket.id}: ${message}`);
+    });
 
-// io.on('connection', (socket) => {
-//     console.log(`Client ${socket.id} connected`);
-//
-//     socket.on('chat-message', (message) => {
-//         console.log(`Received message from client ${socket.id}: ${message}`);
-//     });
-//
-//     socket.on('disconnect', () => {
-//         console.log(`Client ${socket.id} disconnected`);
-//     });
-// });
+    socket.on('disconnect', () => {
+        console.log(`Client ${socket.id} disconnected`);
+    });
+});
 
-
-app.use(bodyParser.json());
-app.use('/', routes);
 
 server.listen(port, () => {
     console.log(`Server SOCKET listening on port ${port}`);
 });
+connectDb()
 

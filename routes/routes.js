@@ -1,11 +1,12 @@
 require('dotenv').config();
 const express = require('express');
 const router = express.Router();
-const {pool} = require('./db');
+const verify = require('../googleAuth');
+const { sendSms, generateTwimlMessage } = require('../twilio');
 
-const verify = require('./googleAuth');
-const { sendSms, generateTwimlMessage } = require('./twilio');
-
+const addUser = require("./queries/addUser");
+import getAllUsers from "./queries/getAllUser";
+import delAllUsers from "./queries/delAllUsers";
 
 router.post('/sms', (req, res) => {
     const twimlMessage = generateTwimlMessage('How are you ?!');
@@ -35,17 +36,14 @@ router.post('/google-login', async (req, res) => {
     res.json(data);
 });
 
-router.get('/users', (req, res) => {
-    pool.query('SELECT * FROM users', (err, result) => {
-        if (err) {
-            console.error(err);
-            res.status(500).send('Error retrieving users from database');
-        } else {
-            res.send(result.rows);
-        }
-    }).then((result) => {
-        console.log(result.rows);
-    })
+router.post('/addUser', addUser);
+
+router.get('/users', getAllUsers);
+
+router.delete('/users', delAllUsers);
+
+router.all('*', (req, res) => {
+    res.status(404).send('Not Found');
 });
 
 module.exports = router;

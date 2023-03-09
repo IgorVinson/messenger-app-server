@@ -1,20 +1,21 @@
-const { Pool } = require('pg');
+const {Pool} = require("pg");
 
-
-const pool = new Pool({
+export const pool = new Pool({
     user: process.env.PGUSER,
     host: process.env.PGHOST,
     database: process.env.PGDATABASE,
     password: process.env.PGPASSWORD,
-    port: process.env.PGPORT
+    port: process.env.PGPORT,
+    ssl:true
 });
 
-pool.on('connect', () => {
-    console.log('connected to the db');
-})
+export const connectDb = async () => {
+    try {
+        const res = await pool.query('SELECT * FROM users')
+        if(!!res.rows.length) console.log('POSTGRESQL DB CONNECTED')
 
-pool.on('error', (err) => {
-    console.error('error connecting to db', err);
-});
+    } catch (error) {
+        console.log(error)
+    }
+}
 
-exports.module = pool;
