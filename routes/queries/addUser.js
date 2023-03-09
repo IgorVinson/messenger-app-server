@@ -1,9 +1,9 @@
 const {pool} = require("../../db");
 
 const addUser = async (req, res) => {
-    const { name, email } = req.body;
+    const { username, email } = req.body;
     try {
-        const result = await pool.query('INSERT INTO users (name, email) VALUES ($1, $2)', [name, email]);
+        const result = await pool.query('INSERT INTO users (username, email) VALUES ($1, $2)', [username, email]);
         res.status(200).send('USER CREATED');
     }
     catch (error) {
