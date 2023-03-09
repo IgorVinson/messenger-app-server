@@ -1,6 +1,5 @@
 # Node.js
 node_modules/
-.env
 .idea/
 db.js
 # Dependency directories
