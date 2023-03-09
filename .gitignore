@@ -5,7 +5,6 @@ db.js
 # Dependency directories
 bower_components/
 jspm_packages/
-
 # Compiled binary files
 *.class
 *.dll
