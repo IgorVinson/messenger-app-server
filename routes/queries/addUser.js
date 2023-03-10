@@ -6,7 +6,7 @@ const addUser = async (req, res) => {
         // check if user already exists
         const existingUser = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
         if (existingUser.rows.length > 0) {
-            return res.status(409).send('User with this email already exists');
+            return res.send('User with this email already exists');
         }
 
         // insert new user
