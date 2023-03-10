@@ -3,7 +3,6 @@ const express = require('express');
 const router = express.Router();
 const verify = require('../googleAuth');
 const { sendSms, generateTwimlMessage } = require('../twilio');
-
 const addUser = require("./queries/addUser");
 import getAllUsers from "./queries/getAllUser";
 import delAllUsers from "./queries/delAllUsers";

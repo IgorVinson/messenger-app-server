@@ -9,7 +9,6 @@ const getAllUsers = async (req, res) => {
         res.status(500).send(error);
         console.log(error)
     }
-
 }
 
 export default getAllUsers;
