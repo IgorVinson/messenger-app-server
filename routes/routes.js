@@ -4,8 +4,8 @@ const router = express.Router();
 const verify = require('../googleAuth');
 const { sendSms, generateTwimlMessage } = require('../twilio');
 const addUser = require("./queries/addUser");
-import getAllUsers from "./queries/getAllUser";
-import delAllUsers from "./queries/delAllUsers";
+import getAllContacts from "./queries/getAllContacts";
+import delAllContacts from "./queries/delAllContacts";
 
 router.post('/sms', (req, res) => {
     const twimlMessage = generateTwimlMessage('How are you ?!');
@@ -37,9 +37,9 @@ router.post('/google-login', async (req, res) => {
 
 router.post('/addUser', addUser);
 
-router.get('/users', getAllUsers);
+router.get('/users', getAllContacts);
 
-router.delete('/users', delAllUsers);
+router.delete('/users', delAllContacts);
 
 router.all('*', (req, res) => {
     res.status(404).send('Not Found');

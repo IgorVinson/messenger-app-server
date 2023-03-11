@@ -1,6 +1,6 @@
 const {pool} = require("../../db");
 
-const getAllUsers = async (req, res) => {
+const getAllContacts = async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM users')
         res.status(200).send(result.rows);
@@ -11,4 +11,4 @@ const getAllUsers = async (req, res) => {
     }
 }
 
-export default getAllUsers;
+export default getAllContacts;

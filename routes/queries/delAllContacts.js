@@ -1,6 +1,6 @@
 const {pool} = require("../../db");
 
-const delAllUsers =async (req, res) => {
+const delAllContacts =async (req, res) => {
     try {
         await pool.query('TRUNCATE users RESTART IDENTITY');
         res.status(200).send('USERS DELETED');
@@ -10,4 +10,4 @@ const delAllUsers =async (req, res) => {
     }
 }
 
-export default delAllUsers;
+export default delAllContacts;

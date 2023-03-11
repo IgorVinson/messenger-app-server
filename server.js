@@ -14,7 +14,8 @@ app.use(bodyParser.json());
 app.use('/', routes);
 const port = process.env.PORT || 8080;
 
-const server = http.createServer(app);
+export const server = http.createServer(app);
+
 const io = socketIo(server, {
     cors: {
         origin: "http://localhost:3000",
@@ -33,6 +34,13 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log(`Client ${socket.id} disconnected`);
     });
+
+    socket.on('message', (data) => {
+        console.log('Received message:', data);
+        socket.emit('message', 'Hello, client!');
+    });
+
+
 });
 
 
